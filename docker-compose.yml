@@ -1,0 +1,35 @@
+version: '3'
+
+networks:
+  test-project:
+
+services:
+  site:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.dev
+      args:
+        - NGINXUSER=${NGINXUSER:-www-data}
+        - NGINXGROUP=${NGINXGROUP:-www-data}
+    container_name: nginx
+    ports:
+      - 8888:80
+    volumes:
+      - ./src:/var/www/html:delegated
+    depends_on:
+      - php
+    networks:
+      - test-project
+
+  php:
+    build:
+      context: ./php
+      dockerfile: Dockerfile.dev
+      args:
+        - PHPUSER=${PHPUSER:-www-data}
+        - PHPGROUP=${PHPGROUP:-www-data}
+    container_name: php
+    volumes:
+      - ./src:/var/www/html:delegated
+    networks:
+      - test-project
