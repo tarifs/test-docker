@@ -3,8 +3,8 @@ FROM nginx:stable-alpine
 ARG NGINXGROUP
 ARG NGINXUSER
 
-ENV NGINXGROUP=${NGINXGROUP}
-ENV NGINXUSER=${NGINXUSER}
+ENV NGINXGROUP=www-data
+ENV NGINXUSER=www-data
 
 RUN sed -i "s/user www-data/user ${NGINXUSER}/g" /etc/nginx/nginx.conf
 
